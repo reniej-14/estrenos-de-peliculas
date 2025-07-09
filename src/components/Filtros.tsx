@@ -1,6 +1,30 @@
+import { useState } from "react"
 import { meses, years } from "../data/data"
 
 export default function Filtros() {
+
+    const [filtros, setFiltros] = useState({
+        buscar: '',
+        mes: '0',
+        year: '2025'
+    })
+
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFiltros({
+            ...filtros,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.ChangeEvent<HTMLSelectElement>) => {
+        e.preventDefault()
+        setFiltros({
+            buscar: '',
+            mes: '0',
+            year: '2025'
+        })
+    }
+
     return (
         <div className="border border-gray-300 rounded-lg p-6 w-[95%] md:w-[76%] mx-auto">
             <div>
@@ -11,7 +35,10 @@ export default function Filtros() {
                 <p className="text-gray-500">Filtra las películas por mes y año</p>
             </div>
 
-            <div className="mt-6 flex flex-col md:flex-row md:items-end gap-6">
+            <form 
+                className="mt-6 flex flex-col md:flex-row md:items-end gap-6"
+                onSubmit={handleSubmit}
+            >
                 <div className="flex flex-col gap-1 w-[100%] md:w-[260px]">
                     <label 
                         htmlFor="buscar"
@@ -32,12 +59,18 @@ export default function Filtros() {
                         className="font-semibold"
                     >Mes</label>
                     <select 
-                        name="mes" id="mes"
+                        name="mes" 
+                        id="mes"
                         className="border border-gray-300 rounded-md py-2 px-3"
+                        value={filtros.mes}
+                        onChange={handleChange}
                     >
-                        <option value="todos">Todos los meses</option>
+                        <option value="0">Todos los meses</option>
                         {meses.map(mes => (
-                            <option value={mes}>{mes}</option>
+                            <option 
+                                key={mes.value}
+                                value={mes.value}
+                            >{mes.name}</option>
                         ))}
                     </select>
                 </div>
@@ -50,9 +83,14 @@ export default function Filtros() {
                     <select 
                         name="year" id="year"
                         className="border border-gray-300 rounded-md py-2 px-3"
+                        value={filtros.year}
+                        onChange={handleChange}
                     >
                         {years.map(year => (
-                            <option value={year}>{year}</option>
+                            <option 
+                                key={year}
+                                value={year}
+                            >{year}</option>
                         ))}
                     </select>
                 </div>
@@ -60,7 +98,7 @@ export default function Filtros() {
                 <button
                     className="border border-gray-300 rounded-md py-2 px-3 h-[41px] cursor-pointer hover:bg-gray-200 w-[100%] md:w-[260px] font-medium transition-colors"
                 >Limpiar filtros</button>
-            </div>
+            </form>
         </div>
     )
 }
