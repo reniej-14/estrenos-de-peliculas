@@ -9,14 +9,14 @@ export default function Filtros() {
         year: '2025'
     })
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
         setFiltros({
             ...filtros,
             [e.target.name]: e.target.value
         })
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setFiltros({
             buscar: '',
@@ -49,6 +49,8 @@ export default function Filtros() {
                         placeholder="Buscar películas..."
                         name="buscar" id="buscar"
                         className="border border-gray-300 rounded-md py-2 px-3"
+                        value={filtros.buscar}
+                        onChange={handleChange}
                     />
                 </div>
 
