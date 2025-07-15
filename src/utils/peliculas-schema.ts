@@ -16,3 +16,13 @@ export const PeliculasAPIResponseSchema = z.object({
     )
 })
 
+export const GeneroAPIResponseSchema = z.object({
+    id: z.number(),
+    name: z.string()
+})
+
+export const GenerosAPIResponseSchema = z.object({
+    genres: z.array(
+        GeneroAPIResponseSchema
+    )
+})

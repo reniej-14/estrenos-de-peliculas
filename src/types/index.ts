@@ -1,5 +1,6 @@
 import z from "zod"
-import { PeliculaAPIResponseShema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema"
+import { GenerosAPIResponseSchema, PeliculaAPIResponseShema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema"
 
 export type Peliculas = z.infer<typeof PeliculasAPIResponseSchema>
 export type Pelicula = z.infer<typeof PeliculaAPIResponseShema>
+export type Generos = z.infer<typeof GenerosAPIResponseSchema>
