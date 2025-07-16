@@ -37,7 +37,7 @@ export default function Peliculas() {
                             >{pelicula.title}</h3>
 
                             <p
-                                className="text-[16px] text-gray-500 my-3 line-clamp-3"
+                                className="text-[16px] text-gray-500 mt-2 mb-3 line-clamp-3"
                             >{pelicula.overview}</p>
 
                             <div className="flex gap-1 mt-3">
