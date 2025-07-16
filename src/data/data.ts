@@ -38,7 +38,7 @@ export const meses = [
     },
     {
         value: '10',
-        name: "Osctubre"
+        name: "Octubre"
     },
     {
         value: '11',

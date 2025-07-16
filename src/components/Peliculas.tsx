@@ -6,19 +6,20 @@ export default function Peliculas() {
 
     const fetchPeliculas = useAppStore((state) => state.fetchPeliculas)
     const fetchGeneros = useAppStore((state) => state.fetchGeneros)
+    const filtros = useAppStore((state) => state.filtros)
 
     useEffect(() => {
         fetchPeliculas()
         fetchGeneros()
-    }, [])
+    }, [filtros])
 
-    const peliculas = useAppStore((state) => state.peliculas)
-    const generos = useAppStore((state) => state.generos.genres)
+    const peliculas = useAppStore((state) => state.peliculas?.results);
+    const generos = useAppStore((state) => state.generos?.genres)
 
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-6 mx-auto w-[95%] md:w-[100%]">
-                {peliculas.results.map(pelicula => (
+                {(peliculas ?? []).map(pelicula => (
                     <div 
                         key={pelicula.id}
                         className="max-w-[300px] mx-auto rounded-lg border border-gray-300 hover:shadow-2xl hover:cursor-pointer transition-shadow"
@@ -50,7 +51,7 @@ export default function Peliculas() {
                             </div>
 
                             <div className="flex gap-2 flex-wrap">
-                                {generos
+                                {(generos ?? [])
                                     .filter(genero => pelicula.genre_ids.includes(genero.id))
                                     .slice(0, 3)
                                     .map(genero => (

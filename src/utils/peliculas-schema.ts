@@ -1,11 +1,11 @@
 import z from "zod";
 
 export const PeliculaAPIResponseShema = z.object({
-    backdrop_path: z.string(),
+    backdrop_path: z.string().nullable(),
     genre_ids: z.array(z.number()),
     id: z.number(),
     overview: z.string(),
-    poster_path: z.string(),
+    poster_path: z.string().nullable(),
     release_date: z.string(),
     title: z.string()
 })

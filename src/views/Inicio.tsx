@@ -3,6 +3,8 @@ import Peliculas from "../components/Peliculas";
 
 
 export default function Inicio() {
+
+    
     return (
         <>
             <Filtros/>

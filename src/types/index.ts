@@ -4,3 +4,9 @@ import { GenerosAPIResponseSchema, PeliculaAPIResponseShema, PeliculasAPIRespons
 export type Peliculas = z.infer<typeof PeliculasAPIResponseSchema>
 export type Pelicula = z.infer<typeof PeliculaAPIResponseShema>
 export type Generos = z.infer<typeof GenerosAPIResponseSchema>
+
+export type Filtros = {
+    buscar: string;
+    mes: string;
+    year: string;
+}

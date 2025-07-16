@@ -1,28 +1,19 @@
-import { useState } from "react"
 import { meses, years } from "../data/data"
+import { useAppStore } from "../store"
 
 export default function Filtros() {
 
-    const [filtros, setFiltros] = useState({
-        buscar: '',
-        mes: '0',
-        year: '2025'
-    })
+    const filtros = useAppStore((state) => state.filtros)
+    const actualizarFiltros = useAppStore((state) => state.actualizarFiltros)
+    const reiniciarFiltros = useAppStore((state) => state.reiniciarFiltros)
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
-        setFiltros({
-            ...filtros,
-            [e.target.name]: e.target.value
-        })
+        actualizarFiltros(e.target.name, e.target.value)
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setFiltros({
-            buscar: '',
-            mes: '0',
-            year: '2025'
-        })
+        reiniciarFiltros()
     }
 
     return (
@@ -54,7 +45,6 @@ export default function Filtros() {
                     />
                 </div>
 
-
                 <div className="flex flex-col gap-1 w-[100%] md:w-[260px]">
                     <label 
                         htmlFor="mes"
@@ -67,7 +57,7 @@ export default function Filtros() {
                         value={filtros.mes}
                         onChange={handleChange}
                     >
-                        <option value="0">Todos los meses</option>
+                        <option value="">Todos los meses</option>
                         {meses.map(mes => (
                             <option 
                                 key={mes.value}
