@@ -35,11 +35,20 @@ export const useAppStore = create<AppStoreType>((set, get) => ({
         }
 
         if (get().filtros.buscar !== '') {
-            const peliculas = get().peliculas.results
-            const resultado = peliculas.includes(get().filtros.buscar)
+            const arrayPeliculas = get().peliculas.results
+            const peliculas = arrayPeliculas.filter(resultados => {
+                const nombre = resultados.title.toLowerCase()
+                return nombre.includes(get().filtros.buscar.toLowerCase())
+            })
+
+            set({
+                peliculas: {
+                    results: peliculas
+                }
+            })
 
             console.log('Buscando...')
-            console.log(resultado)
+            console.log(peliculas)
         }
 
         if (get().filtros.mes !== '') {
