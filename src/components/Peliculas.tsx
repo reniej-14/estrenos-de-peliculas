@@ -9,11 +9,22 @@ export default function Peliculas() {
     const filtros = useAppStore((state) => state.filtros)
 
     useEffect(() => {
-        fetchPeliculas()
+        // Solo al montar (una sola vez)
         fetchGeneros()
-    }, [filtros])
+        fetchPeliculas()
+    }, [])
 
-    const peliculas = useAppStore((state) => state.peliculas?.results);
+    useEffect(() => {
+        // Solo cuando mes o año cambian
+        fetchPeliculas()
+    }, [filtros.mes, filtros.year])
+
+    const todas = useAppStore((state) => state.peliculas.results)
+    const buscar = useAppStore((state) => state.filtros.buscar)
+
+    const peliculas = todas.filter(pelicula =>
+        pelicula.title.toLowerCase().includes(buscar.toLowerCase())
+    )
     const generos = useAppStore((state) => state.generos?.genres)
 
     return (

@@ -25,47 +25,33 @@ export const useAppStore = create<AppStoreType>((set, get) => ({
         year: '2025'
     },
     fetchPeliculas: async () => {
-        if (get().filtros.buscar === "" && get().filtros.mes === "" && get().filtros.year === '2025') {
+        const { filtros } = get()
+
+        // Buscar por año diferente
+        if (filtros.year !== '2025' && filtros.mes === '' && filtros.buscar === '') {
+            const peliculas = await getPeliculasPorYear(filtros)
+            set({ 
+                peliculas 
+            })
+            return
+        }
+
+        // Buscar por mes (con año)
+        if (filtros.mes !== '' && filtros.buscar === '') {
+        const peliculas = await getPeliculasPorMes(filtros)
+            set({ 
+                peliculas 
+            })
+            return
+        }
+
+        // Si no hay ningún filtro
+        if (filtros.buscar === '' && filtros.mes === '' && filtros.year === '2025') {
             const peliculas = await getPeliculas()
-            set({
-                peliculas
+            set({ 
+                peliculas 
             })
-            console.log('sigue siendo el mismo')
             return
-        }
-
-        if (get().filtros.buscar !== '') {
-            const arrayPeliculas = get().peliculas.results
-            const peliculas = arrayPeliculas.filter(resultados => {
-                const nombre = resultados.title.toLowerCase()
-                return nombre.includes(get().filtros.buscar.toLowerCase())
-            })
-
-            set({
-                peliculas: {
-                    results: peliculas
-                }
-            })
-
-            console.log('Buscando...')
-            console.log(peliculas)
-        }
-
-        if (get().filtros.mes !== '') {
-            const peliculas = await getPeliculasPorMes(get().filtros)
-            set({
-                peliculas
-            })
-            console.log('Ahora es mes')
-            return
-        }
-
-        if (get().filtros.year !== '2025') {
-            const peliculas = await getPeliculasPorYear(get().filtros)
-            set({
-                peliculas
-            })
-            console.log('Ahora es año')
         }
     },
     fetchGeneros: async () => {
@@ -81,7 +67,6 @@ export const useAppStore = create<AppStoreType>((set, get) => ({
                 [filtro]: valor
             }
         })
-        console.log(get().filtros)
     },
     reiniciarFiltros: () => {
         set({
@@ -91,6 +76,5 @@ export const useAppStore = create<AppStoreType>((set, get) => ({
                 year: '2025'
             }
         })    
-        console.log(get().filtros)
     }
 }))
