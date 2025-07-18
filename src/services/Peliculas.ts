@@ -1,8 +1,6 @@
 import axios from "axios";
 import { GenerosAPIResponseSchema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema";
 import type { Filtros } from "../types";
-import { obtenerRangoDeMes } from "../utils/obtenerRangoDeMes";
-import { number } from "zod";
 
 export async function getPeliculas() {
     const apiKey = 'a3ee459722faa8eaa14416ff37611eeb'
