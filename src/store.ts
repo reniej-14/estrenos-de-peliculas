@@ -1,19 +1,24 @@
 import { create } from "zustand";
-import type { Filtros, Generos, Peliculas } from "./types";
+import type { Filtros, Generos, Pelicula, PeliculaFavorita, Peliculas, PeliculasFavoritas } from "./types";
 import { getGeneros, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } from "./services/Peliculas";
 
 export type AppStoreType = {
     peliculas: Peliculas
+    peliculasFavoritas: PeliculasFavoritas
     generos: Generos
     filtros: Filtros
     fetchPeliculas: () => Promise<void>
     fetchGeneros: () => Promise<void>
     actualizarFiltros: (filtro: string, valor: string) => void
     reiniciarFiltros: () => void
+    actualizarPeliculasFavoritas: (pelicula: Pelicula) => void
 }
 
 export const useAppStore = create<AppStoreType>((set, get) => ({
     peliculas: {
+        results: []
+    },
+    peliculasFavoritas: {
         results: []
     },
     generos: {
@@ -76,5 +81,32 @@ export const useAppStore = create<AppStoreType>((set, get) => ({
                 year: '2025'
             }
         })    
+    },
+    actualizarPeliculasFavoritas: (pelicula) => {
+        const favoritas = get().peliculasFavoritas.results
+        const yaExiste = favoritas.some(peli => peli.id === pelicula.id)
+        const peliculaNueva: PeliculaFavorita = {
+            ...pelicula,
+            like: true
+        }
+
+        if (yaExiste) {
+            const peliculasActualizadas = favoritas.filter(peliculas => peliculas.id !== pelicula.id)
+
+            set({
+                peliculasFavoritas: {
+                    results: peliculasActualizadas
+                }
+            })
+            console.log(get().peliculasFavoritas)
+            return
+        }
+
+        set({
+            peliculasFavoritas: {
+                results: [...favoritas, peliculaNueva]
+            }
+        })
+        console.log(get().peliculasFavoritas)
     }
 }))

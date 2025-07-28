@@ -10,3 +10,10 @@ export type Filtros = {
     mes: string;
     year: string;
 }
+
+export type PeliculaFavorita = Pelicula & {
+    like: boolean
+}
+export type PeliculasFavoritas = {
+    results: PeliculaFavorita[]
+}

@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useAppStore } from "../store"
+import type { Pelicula } from "../types"
 
 
 export default function Peliculas() {
@@ -7,6 +8,8 @@ export default function Peliculas() {
     const fetchPeliculas = useAppStore((state) => state.fetchPeliculas)
     const fetchGeneros = useAppStore((state) => state.fetchGeneros)
     const filtros = useAppStore((state) => state.filtros)
+    const actualizarPeliculasFavoritas = useAppStore((state) => state.actualizarPeliculasFavoritas)
+    const peliculasFavoritas = useAppStore((state) => state.peliculasFavoritas.results)
 
     useEffect(() => {
         // Solo al montar (una sola vez)
@@ -27,14 +30,33 @@ export default function Peliculas() {
     )
     const generos = useAppStore((state) => state.generos?.genres)
 
+    const handleClick = (pelicula: Pelicula) => {
+        actualizarPeliculasFavoritas(pelicula)
+    }
+
+    const isLike = (pelicula: Pelicula) => {
+        return peliculasFavoritas.some(peli => peli.id === pelicula.id)
+    }
+
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-6 mx-auto w-[95%] md:w-[100%]">
                 {(peliculas ?? []).map(pelicula => (
+                    
                     <div 
                         key={pelicula.id}
-                        className="max-w-[300px] mx-auto rounded-lg border border-gray-300 hover:shadow-2xl hover:cursor-pointer transition-shadow"
+                        className="max-w-[300px] mx-auto rounded-lg border border-gray-300 hover:shadow-2xl hover:cursor-pointer transition-shadow relative"
                     >
+                        <div 
+                            className="bg-black/40 hover:bg-black/70 rounded-md p-2 absolute mt-2 right-2"
+                            onClick={() => handleClick(pelicula)}
+                        >
+                            <img
+                                src={isLike(pelicula) ? "/heart2.svg" : "/heart.svg"}
+                                alt="Icono favoritas"
+                                className="filter w-5 h-5 brightness-0 invert"
+                            />
+                        </div>
                         <div>
                             <img 
                                 src={`https://image.tmdb.org/t/p/original${pelicula.poster_path}`} 
