@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
+import { useAppStore } from "../store"
 
 export default function Header() {
     const location = useLocation()
@@ -9,6 +10,9 @@ export default function Header() {
     const handleClick = () => {
         navigate(isFavoritas ? "/" : "/Favoritas")
     }
+
+    const peliculasFavoritas = useAppStore((store) => store.peliculasFavoritas.results)
+    const totalFavoritas = peliculasFavoritas.length
 
     return (
         <header className="border border-b-gray-300 border-t-0 border-l-0 border-r-0 mb-6 mx-auto">
@@ -34,7 +38,7 @@ export default function Header() {
                     />
                     <p 
                         className="text-[14px] md:text-[16px] font-medium"
-                    >{isFavoritas ? "Ver todas" : `Favoritas (${0})`}</p>
+                    >{isFavoritas ? "Ver todas" : `Favoritas (${totalFavoritas})`}</p>
                 </button>
             </div>
         </header>
