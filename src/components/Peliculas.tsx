@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useAppStore } from "../store"
 import type { Pelicula } from "../types"
+import { Link } from "react-router-dom"
 
 
 export default function Peliculas() {
@@ -10,6 +11,7 @@ export default function Peliculas() {
     const filtros = useAppStore((state) => state.filtros)
     const actualizarPeliculasFavoritas = useAppStore((state) => state.actualizarPeliculasFavoritas)
     const peliculasFavoritas = useAppStore((state) => state.peliculasFavoritas.results)
+    const actualizarPeliculaInfo = useAppStore((state) => state.actualizarPeliculaInfo)
 
     useEffect(() => {
         // Solo al montar (una sola vez)
@@ -38,14 +40,22 @@ export default function Peliculas() {
         return peliculasFavoritas.some(peli => peli.id === pelicula.id)
     }
 
+    const handleClickInfo = (pelicula: Pelicula) => {
+        actualizarPeliculaInfo(pelicula)
+    }
+
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-6 mx-auto w-[95%] md:w-[100%]">
+            <Link 
+                to={"/pelicula-info"}
+                className="grid grid-cols-1 md:grid-cols-4 gap-6 my-6 mx-auto w-[95%] md:w-[100%]"
+            >
                 {(peliculas ?? []).map(pelicula => (
                     
                     <div 
                         key={pelicula.id}
                         className="max-w-[300px] mx-auto rounded-lg border border-gray-300 hover:shadow-2xl hover:cursor-pointer transition-shadow relative"
+                        onClick={() => handleClickInfo(pelicula)}
                     >
                         <div 
                             className="bg-black/40 hover:bg-black/70 rounded-md p-2 absolute mt-2 right-2"
@@ -97,7 +107,7 @@ export default function Peliculas() {
                         </div>
                     </div>
                 ))}
-            </div>
+            </Link>
         </>
     )
 }

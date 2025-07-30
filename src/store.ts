@@ -6,6 +6,7 @@ import { getGeneros, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } fro
 export type AppStoreType = {
     peliculas: Peliculas
     peliculasFavoritas: PeliculasFavoritas
+    peliculaInfo: Peliculas
     generos: Generos
     filtros: Filtros
     fetchPeliculas: () => Promise<void>
@@ -13,6 +14,7 @@ export type AppStoreType = {
     actualizarFiltros: (filtro: string, valor: string) => void
     reiniciarFiltros: () => void
     actualizarPeliculasFavoritas: (pelicula: Pelicula) => void
+    actualizarPeliculaInfo: (pelicula: Pelicula) => void
 }
 
 export const useAppStore = create<AppStoreType>()(
@@ -22,6 +24,9 @@ export const useAppStore = create<AppStoreType>()(
                 results: [] 
             },
             peliculasFavoritas: { 
+                results: [] 
+            },
+            peliculaInfo: { 
                 results: [] 
             },
             generos: { 
@@ -98,6 +103,13 @@ export const useAppStore = create<AppStoreType>()(
                     },
                 });
             },
+            actualizarPeliculaInfo: (pelicula) => {
+                set({
+                     peliculaInfo: { 
+                        results: [pelicula] 
+                    }
+                })
+            }
         }),
         {
             name: "peliculas-favoritas", 
