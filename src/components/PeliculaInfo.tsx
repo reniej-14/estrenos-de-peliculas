@@ -1,9 +1,12 @@
+import { useEffect } from "react"
 import { useAppStore } from "../store"
 
 export default function PeliculaInfo() {
     const peliculaInfo = useAppStore((state) => state.peliculaInfo.results[0])
     const peliculasFavoritas = useAppStore((state) => state.peliculasFavoritas)
     const actualizarPeliculasFavoritas = useAppStore((state) => state.actualizarPeliculasFavoritas)
+    const fetchPeliculaInfo = useAppStore((state) => state.fetchPeliculaInfo)
+    const peliculaInfo2 = useAppStore((state) => state.peliculaInfo2)
 
     const isLike = () => {
         return peliculasFavoritas.results.some((peli) => peli.id === peliculaInfo.id)
@@ -13,7 +16,11 @@ export default function PeliculaInfo() {
         actualizarPeliculasFavoritas(peliculaInfo)
     }
 
-    console.log(peliculaInfo)
+    useEffect(() => {
+        fetchPeliculaInfo(peliculaInfo.id)
+    }, [])
+
+    console.log(peliculaInfo2.duracion)
 
     return (
         <>
@@ -58,7 +65,7 @@ export default function PeliculaInfo() {
                             <img src="/reloj.svg" alt="imagen calendario" />
                             <p 
                                 className="text-[15px] font-semibold"
-                            >{2}</p>
+                            >{peliculaInfo2.duracion}</p>
                         </div>
                     </div>
 

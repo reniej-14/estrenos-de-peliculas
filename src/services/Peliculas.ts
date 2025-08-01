@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GenerosAPIResponseSchema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema";
+import { DuracionPeliculaResponseSchema, GenerosAPIResponseSchema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema";
 import type { Filtros } from "../types";
 
 export async function getPeliculas() {
@@ -68,6 +68,22 @@ export async function getGeneros() {
         if (result.success) {
             return result.data
         } 
+    } catch (error) {
+        console.log(error)
+    }   
+}
+
+export async function getPeliculaDuracion(id: number) {
+    const apiKey = 'a3ee459722faa8eaa14416ff37611eeb'
+    const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=es`
+
+    try {
+        const { data } = await axios(url)
+        const result = DuracionPeliculaResponseSchema.safeParse(data)
+
+        if (result.success) {
+            return result.data.runtime
+        }
     } catch (error) {
         console.log(error)
     }   

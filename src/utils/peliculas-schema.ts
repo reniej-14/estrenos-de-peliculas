@@ -26,3 +26,7 @@ export const GenerosAPIResponseSchema = z.object({
         GeneroAPIResponseSchema
     )
 })
+
+export const DuracionPeliculaResponseSchema = z.object({
+    runtime: z.number()
+})

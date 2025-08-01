@@ -1,5 +1,5 @@
 import z from "zod"
-import { GenerosAPIResponseSchema, PeliculaAPIResponseShema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema"
+import { DuracionPeliculaResponseSchema, GenerosAPIResponseSchema, PeliculaAPIResponseShema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema"
 
 export type Peliculas = z.infer<typeof PeliculasAPIResponseSchema>
 export type Pelicula = z.infer<typeof PeliculaAPIResponseShema>
@@ -16,4 +16,10 @@ export type PeliculaFavorita = Pelicula & {
 }
 export type PeliculasFavoritas = {
     results: PeliculaFavorita[]
+}
+
+export type DuracionPelicula = z.infer<typeof DuracionPeliculaResponseSchema>
+
+export type PeliculaInfo = {
+    duracion: string
 }

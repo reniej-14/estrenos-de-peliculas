@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Filtros, Generos, Pelicula, PeliculaFavorita, Peliculas, PeliculasFavoritas } from "./types";
-import { getGeneros, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } from "./services/Peliculas";
+import type { Filtros, Generos, Pelicula, PeliculaFavorita, PeliculaInfo, Peliculas, PeliculasFavoritas } from "./types";
+import { getGeneros, getPeliculaDuracion, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } from "./services/Peliculas";
+import { formatearDuracion } from "./utils/formatearDuracion";
 
 export type AppStoreType = {
     peliculas: Peliculas
     peliculasFavoritas: PeliculasFavoritas
     peliculaInfo: Peliculas
+    peliculaInfo2: PeliculaInfo
     generos: Generos
     filtros: Filtros
     fetchPeliculas: () => Promise<void>
@@ -15,6 +17,7 @@ export type AppStoreType = {
     reiniciarFiltros: () => void
     actualizarPeliculasFavoritas: (pelicula: Pelicula) => void
     actualizarPeliculaInfo: (pelicula: Pelicula) => void
+    fetchPeliculaInfo: (id: number) => void
 }
 
 export const useAppStore = create<AppStoreType>()(
@@ -28,6 +31,9 @@ export const useAppStore = create<AppStoreType>()(
             },
             peliculaInfo: { 
                 results: [] 
+            },
+            peliculaInfo2: { 
+                duracion: "",
             },
             generos: { 
                 genres: [] 
@@ -107,6 +113,16 @@ export const useAppStore = create<AppStoreType>()(
                 set({
                      peliculaInfo: { 
                         results: [pelicula] 
+                    }
+                })
+            },
+            fetchPeliculaInfo: async (id) => {
+                const duracionPelicula = await getPeliculaDuracion(id)
+                const duracion = formatearDuracion(duracionPelicula)
+
+                set({
+                    peliculaInfo2: {
+                        duracion
                     }
                 })
             }
