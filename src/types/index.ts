@@ -22,4 +22,6 @@ export type DuracionPelicula = z.infer<typeof DuracionPeliculaResponseSchema>
 
 export type PeliculaInfo = {
     duracion: string
+    director: string | undefined
+    actores: string[] | undefined
 }

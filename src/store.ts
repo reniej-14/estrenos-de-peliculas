@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Filtros, Generos, Pelicula, PeliculaFavorita, PeliculaInfo, Peliculas, PeliculasFavoritas } from "./types";
-import { getGeneros, getPeliculaDuracion, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } from "./services/Peliculas";
+import { getDirectorYActores, getGeneros, getPeliculaDuracion, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } from "./services/Peliculas";
 import { formatearDuracion } from "./utils/formatearDuracion";
 
 export type AppStoreType = {
@@ -18,6 +18,7 @@ export type AppStoreType = {
     actualizarPeliculasFavoritas: (pelicula: Pelicula) => void
     actualizarPeliculaInfo: (pelicula: Pelicula) => void
     fetchPeliculaInfo: (id: number) => void
+    getPeliculaReparto: (id: number) => Promise<void>
 }
 
 export const useAppStore = create<AppStoreType>()(
@@ -34,6 +35,8 @@ export const useAppStore = create<AppStoreType>()(
             },
             peliculaInfo2: { 
                 duracion: "",
+                director: "",
+                actores: []
             },
             generos: { 
                 genres: [] 
@@ -122,7 +125,21 @@ export const useAppStore = create<AppStoreType>()(
 
                 set({
                     peliculaInfo2: {
+                        ...get().peliculaInfo2, 
                         duracion
+                    }
+                })
+            },
+            getPeliculaReparto: async (id) => {
+                const reparto = await getDirectorYActores(id)
+                const director = reparto?.crew.filter(director => director.job === 'Director')[0]
+                const actores = reparto?.cast.map(actor => actor.name)
+
+                set({
+                    peliculaInfo2: {
+                        ...get().peliculaInfo2, 
+                        director: director?.name,
+                        actores
                     }
                 })
             }

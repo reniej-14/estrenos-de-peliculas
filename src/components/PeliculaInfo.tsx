@@ -7,6 +7,8 @@ export default function PeliculaInfo() {
     const actualizarPeliculasFavoritas = useAppStore((state) => state.actualizarPeliculasFavoritas)
     const fetchPeliculaInfo = useAppStore((state) => state.fetchPeliculaInfo)
     const peliculaInfo2 = useAppStore((state) => state.peliculaInfo2)
+    const generos = useAppStore((state) => state.generos?.genres)
+    const getPeliculaReparto = useAppStore((state) => state.getPeliculaReparto)
 
     const isLike = () => {
         return peliculasFavoritas.results.some((peli) => peli.id === peliculaInfo.id)
@@ -18,13 +20,12 @@ export default function PeliculaInfo() {
 
     useEffect(() => {
         fetchPeliculaInfo(peliculaInfo.id)
+        getPeliculaReparto(peliculaInfo.id)
     }, [])
-
-    console.log(peliculaInfo2.duracion)
 
     return (
         <>
-            <div className="flex flex-col md:flex-row max-w-[95%] mx-auto my-8 gap-8">
+            <div className="flex flex-col md:flex-row max-w-[95%] md:max-w-[80%] mx-auto my-8 gap-8">
                 <div className="w-100% md:max-w-[380px] rounded-lg border border-gray-300">
                     <img 
                         src={`https://image.tmdb.org/t/p/original${peliculaInfo.poster_path}`} 
@@ -69,9 +70,41 @@ export default function PeliculaInfo() {
                         </div>
                     </div>
 
+                    <div className="flex gap-2 flex-wrap mt-2">
+                                {(generos ?? [])
+                                    .filter((genero) => peliculaInfo.genre_ids.includes(genero.id))
+                                    .slice(0, 3)
+                                    .map((genero) => (
+                                        <p
+                                            key={genero.id}
+                                            className="mt-2 border border-gray-300 px-3 rounded-2xl text-[12px] font-semibold"
+                                        >{genero.name}</p>
+                                    )
+                                )}
+                            </div>
+
                     <div>
-                        <h3 className="text-3xl font-medium mt-6">Sinopsis</h3>
+                        <h3 className="text-3xl font-medium mt-8">Sinopsis</h3>
                         <p className="text-gray-500 text-[14px] md:text-[17px] mt-4">{peliculaInfo.overview}</p>
+                    </div>
+
+                    <div className="rounded-lg border border-gray-300 mt-6 p-6">
+                        <div className="flex gap-2">
+                            <img src="/users.svg" alt="Imagen de reparto" />
+                            <h2 className="font-medium text-2xl ">Reparto y Equipo</h2>
+                        </div>
+
+                        <div className="py-3 border-b border-gray-300">
+                            <h3 className="font-medium text-[14px] md:text-[17px]">Director</h3>
+
+                            <p className="text-gray-500 text-[14px] md:text-[17px]">{peliculaInfo2.director}</p>
+                        </div>
+
+                        <div className="mt-3">
+                            <h3 className="font-medium text-[14px] md:text-[17px]">Reparto Principal</h3>
+
+                            <p className="text-gray-500 text-[14px] md:text-[17px]">{peliculaInfo2.actores?.slice(0, 5).join(", ")}</p>
+                        </div>
                     </div>
                 </div>
             </div>

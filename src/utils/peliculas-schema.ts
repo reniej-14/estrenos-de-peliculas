@@ -30,3 +30,17 @@ export const GenerosAPIResponseSchema = z.object({
 export const DuracionPeliculaResponseSchema = z.object({
     runtime: z.number()
 })
+
+export const RepartoPeliculaResponseSchema = z.object({
+    cast: z.array(
+        z.object({
+            name: z.string()
+        })
+    ),
+    crew: z.array(
+        z.object({
+            job: z.string(),
+            name: z.string()
+        })
+    )
+})

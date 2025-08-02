@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DuracionPeliculaResponseSchema, GenerosAPIResponseSchema, PeliculasAPIResponseSchema } from "../utils/peliculas-schema";
+import { DuracionPeliculaResponseSchema, GenerosAPIResponseSchema, PeliculasAPIResponseSchema, RepartoPeliculaResponseSchema } from "../utils/peliculas-schema";
 import type { Filtros } from "../types";
 
 export async function getPeliculas() {
@@ -28,7 +28,6 @@ export async function getPeliculasPorMes(filtro: Filtros) {
         const result = PeliculasAPIResponseSchema.safeParse(data)
 
         if (result.success) {
-            console.log(result.data)
             return result.data
         } else {
             console.log(result.data)
@@ -88,3 +87,19 @@ export async function getPeliculaDuracion(id: number) {
         console.log(error)
     }   
 }
+
+export async function getDirectorYActores(id: number) {
+    const apiKey = 'a3ee459722faa8eaa14416ff37611eeb'
+    const url = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=es`
+
+    try {
+        const { data } = await axios(url)
+        const result = RepartoPeliculaResponseSchema.safeParse(data)
+
+        if (result.success) {
+            return(result.data)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}   
