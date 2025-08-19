@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useAppStore } from "../store"
 import type { Pelicula } from "../types"
 
@@ -5,6 +6,7 @@ export default function PeliculasFavoritas() {
     const actualizarPeliculasFavoritas = useAppStore((state) => state.actualizarPeliculasFavoritas)
     const peliculasFavoritas = useAppStore((state) => state.peliculasFavoritas.results)
     const generos = useAppStore((state) => state.generos?.genres)
+    const actualizarPeliculaInfo = useAppStore((state) => state.actualizarPeliculaInfo)
 
     const handleClick = (pelicula: Pelicula) => {
         actualizarPeliculasFavoritas(pelicula)
@@ -12,6 +14,10 @@ export default function PeliculasFavoritas() {
 
     const isLike = (pelicula: Pelicula) => {
         return peliculasFavoritas.some(peli => peli.id === pelicula.id)
+    }
+
+    const handleClickInfo = (pelicula: Pelicula) => {
+        actualizarPeliculaInfo(pelicula);
     }
 
     return (
@@ -25,7 +31,10 @@ export default function PeliculasFavoritas() {
                     >
                         <div 
                             className="bg-black/40 hover:bg-black/70 rounded-md p-2 absolute mt-2 right-2"
-                            onClick={() => handleClick(pelicula)}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleClick(pelicula)
+                            }}
                         >
                             <img
                                 src={isLike(pelicula) ? "/heart2.svg" : "/heart.svg"}
@@ -33,15 +42,17 @@ export default function PeliculasFavoritas() {
                                 className="filter w-5 h-5 brightness-0 invert"
                             />
                         </div>
-                        <div>
+                        <Link
+                            to="/pelicula-info"
+                            onClick={() => handleClickInfo(pelicula)}
+                        >
                             <img 
                                 src={`https://image.tmdb.org/t/p/original${pelicula.poster_path}`} 
                                 alt="imagen de la película"
                                 className="rounded-t-lg max-h-[400px] w-[100%] object-cover" 
                             />
-                        </div>
 
-                        <div className="p-4">
+                            <div className="p-4">
                             <h3
                                 className="font-medium text-2xl line-clamp-1"
                             >{pelicula.title}</h3>
@@ -70,7 +81,8 @@ export default function PeliculasFavoritas() {
                                     >{genero.name}</p>
                                 ))}
                             </div>
-                        </div>
+                            </div>
+                        </Link>
                     </div>
                 ))}
             </div>

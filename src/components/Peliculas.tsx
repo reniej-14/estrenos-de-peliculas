@@ -7,15 +7,9 @@ export default function Peliculas() {
   const fetchPeliculas = useAppStore((state) => state.fetchPeliculas)
   const fetchGeneros = useAppStore((state) => state.fetchGeneros)
   const filtros = useAppStore((state) => state.filtros)
-  const actualizarPeliculasFavoritas = useAppStore(
-    (state) => state.actualizarPeliculasFavoritas
-  )
-  const peliculasFavoritas = useAppStore(
-    (state) => state.peliculasFavoritas.results
-  )
-  const actualizarPeliculaInfo = useAppStore(
-    (state) => state.actualizarPeliculaInfo
-  )
+  const actualizarPeliculasFavoritas = useAppStore((state) => state.actualizarPeliculasFavoritas)
+  const peliculasFavoritas = useAppStore((state) => state.peliculasFavoritas.results)
+  const actualizarPeliculaInfo = useAppStore((state) => state.actualizarPeliculaInfo)
 
   useEffect(() => {
     // Solo al montar (una sola vez)
