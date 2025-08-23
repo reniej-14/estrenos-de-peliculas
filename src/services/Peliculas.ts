@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DuracionPeliculaResponseSchema, GenerosAPIResponseSchema, PeliculasAPIResponseSchema, RepartoPeliculaResponseSchema } from "../utils/peliculas-schema";
+import { DuracionPeliculaResponseSchema, GenerosAPIResponseSchema, PeliculasAPIResponseSchema, RepartoPeliculaResponseSchema, TrailerPeliculaResponseSchema } from "../utils/peliculas-schema";
 import type { Filtros } from "../types";
 
 export async function getPeliculas() {
@@ -103,3 +103,21 @@ export async function getDirectorYActores(id: number) {
         console.log(error)
     }
 }   
+
+export async function getTrailer(id: number) {
+    const apiKey = 'a3ee459722faa8eaa14416ff37611eeb'
+    const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}&language=es-ES`
+
+    try {
+        const { data } = await axios(url)
+        const result = TrailerPeliculaResponseSchema.safeParse(data)
+
+        if (result.success) {
+            const trailer = result.data.results.filter(video => video.type === 'Trailer')[0]
+            return trailer.key
+        }
+        
+    } catch (error) {
+        console.log(error)
+    }
+}

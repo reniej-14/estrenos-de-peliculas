@@ -44,3 +44,12 @@ export const RepartoPeliculaResponseSchema = z.object({
         })
     )
 })
+
+export const TrailerPeliculaResponseSchema = z.object({
+    results: z.array(
+        z.object({
+            key: z.string(),
+            type: z.string()
+        })
+    )
+})

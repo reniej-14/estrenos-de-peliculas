@@ -24,4 +24,5 @@ export type PeliculaInfo = {
     duracion: string
     director: string | undefined
     actores: string[] | undefined
+    trailer: string | undefined
 }

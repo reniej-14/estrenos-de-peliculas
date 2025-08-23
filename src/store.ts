@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Filtros, Generos, Pelicula, PeliculaFavorita, PeliculaInfo, Peliculas, PeliculasFavoritas } from "./types";
-import { getDirectorYActores, getGeneros, getPeliculaDuracion, getPeliculas, getPeliculasPorMes, getPeliculasPorYear } from "./services/Peliculas";
+import { getDirectorYActores, getGeneros, getPeliculaDuracion, getPeliculas, getPeliculasPorMes, getPeliculasPorYear, getTrailer } from "./services/Peliculas";
 import { formatearDuracion } from "./utils/formatearDuracion";
 
 export type AppStoreType = {
@@ -19,6 +19,7 @@ export type AppStoreType = {
     actualizarPeliculaInfo: (pelicula: Pelicula) => void
     fetchPeliculaInfo: (id: number) => void
     getPeliculaReparto: (id: number) => Promise<void>
+    getPeliculaTrailer: (id: number) => Promise<void>
 }
 
 export const useAppStore = create<AppStoreType>()(
@@ -36,7 +37,8 @@ export const useAppStore = create<AppStoreType>()(
             peliculaInfo2: { 
                 duracion: "",
                 director: "",
-                actores: []
+                actores: [],
+                trailer: ""
             },
             generos: { 
                 genres: [] 
@@ -140,6 +142,16 @@ export const useAppStore = create<AppStoreType>()(
                         ...get().peliculaInfo2, 
                         director: director?.name,
                         actores
+                    }
+                })
+            },
+            getPeliculaTrailer: async (id) => {
+                const trailer = await getTrailer(id)
+
+                set({
+                    peliculaInfo2: {
+                        ...get().peliculaInfo2,
+                        trailer
                     }
                 })
             }

@@ -9,6 +9,7 @@ export default function PeliculaInfo() {
     const peliculaInfo2 = useAppStore((state) => state.peliculaInfo2)
     const generos = useAppStore((state) => state.generos?.genres)
     const getPeliculaReparto = useAppStore((state) => state.getPeliculaReparto)
+    const getPeliculaTrailer = useAppStore((satate) => satate.getPeliculaTrailer)
 
     const isLike = () => {
         return peliculasFavoritas.results.some((peli) => peli.id === peliculaInfo.id)
@@ -21,7 +22,12 @@ export default function PeliculaInfo() {
     useEffect(() => {
         fetchPeliculaInfo(peliculaInfo.id)
         getPeliculaReparto(peliculaInfo.id)
+        getPeliculaTrailer(peliculaInfo.id)
     }, [])
+
+    const trailerYoutube = `https://www.youtube.com/watch?v=${peliculaInfo2.trailer}`
+
+    console.log(trailerYoutube)
 
     return (
         <>
