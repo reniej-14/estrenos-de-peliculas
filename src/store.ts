@@ -25,14 +25,18 @@ export type AppStoreType = {
 export const useAppStore = create<AppStoreType>()(
     persist(
         (set, get) => ({
-            peliculas: { 
-                results: [] 
+            peliculas: {
+                page: 1,
+                results: [],
+                total_pages: 0
             },
             peliculasFavoritas: { 
                 results: [] 
             },
             peliculaInfo: { 
-                results: [] 
+                page: 1,
+                results: [],
+                total_pages: 0
             },
             peliculaInfo2: { 
                 duracion: "",
@@ -116,9 +120,11 @@ export const useAppStore = create<AppStoreType>()(
             },
             actualizarPeliculaInfo: (pelicula) => {
                 set({
-                     peliculaInfo: { 
-                        results: [pelicula] 
-                    }
+                     peliculaInfo: {
+                        results: [pelicula],
+                        page: 1,
+                        total_pages: 0
+                     }
                 })
             },
             fetchPeliculaInfo: async (id) => {

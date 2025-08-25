@@ -25,9 +25,13 @@ export default function PeliculaInfo() {
         getPeliculaTrailer(peliculaInfo.id)
     }, [])
 
-    const trailerYoutube = `https://www.youtube.com/watch?v=${peliculaInfo2.trailer}`
+    const trailerYoutube = `https://www.youtube.com/embed/${peliculaInfo2.trailer}`
 
     console.log(trailerYoutube)
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
 
     return (
         <>
@@ -111,6 +115,30 @@ export default function PeliculaInfo() {
 
                             <p className="text-gray-500 text-[14px] md:text-[17px]">{peliculaInfo2.actores?.slice(0, 5).join(", ")}</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="max-w-[95%] md:max-w-[80%] mx-auto my-8 p-6 rounded-lg border border-gray-300">
+                <div>
+                    <div className="flex items-center gap-2">
+                        <img src="/play.svg" alt="imagen play" />
+                        <h2 className="font-medium text-2xl">Trailer Oficial</h2>
+                    </div>
+                    
+                    <p className="text-gray-500 text-[13px] md:text-[16px]">Mira el trailer oficial de {peliculaInfo.title}</p>
+                </div>
+
+                <div className="mt-6">
+                    <div className="aspect-video w-full">
+                        <iframe
+                            className="w-full h-full rounded-lg" 
+                            src={trailerYoutube}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy">
+                        </iframe>
                     </div>
                 </div>
             </div>

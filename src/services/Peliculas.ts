@@ -10,6 +10,8 @@ export async function getPeliculas() {
         const { data } = await axios(url)
         const result = PeliculasAPIResponseSchema.safeParse(data)
 
+        console.log(data)
+
         if (result.success) {
             return result.data
         }
