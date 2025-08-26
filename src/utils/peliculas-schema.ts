@@ -11,11 +11,9 @@ export const PeliculaAPIResponseShema = z.object({
 })
 
 export const PeliculasAPIResponseSchema = z.object({
-    page: z.number(),
     results: z.array(
         PeliculaAPIResponseShema
-    ),
-    total_pages: z.number()
+    )
 })
 
 export const GeneroAPIResponseSchema = z.object({

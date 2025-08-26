@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAppStore } from "../store"
 
 export default function Header() {
@@ -18,9 +18,10 @@ export default function Header() {
         <header className="border border-b-gray-300 border-t-0 border-l-0 border-r-0 mb-6 mx-auto">
             <div className="container mx-auto flex flex-col md:flex-row md:justify-between md:items-center w-[95%] md:w-full">
                 <div className="py-6">
-                    <h1 
-                        className="text-2xl md:text-3xl font-bold"
-                    >Estrenos de Películas</h1>
+                    <Link 
+                        to={"/"}
+                        className="text-2xl md:text-3xl font-bold cursor-pointer"
+                    >Estrenos de Películas</Link>
                     <p 
                         className="text-gray-500 text-[14px] md:text-[17px]"
                     >Descubre los últimos estrenos y próximos lanzamientos</p>

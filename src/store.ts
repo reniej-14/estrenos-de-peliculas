@@ -26,9 +26,7 @@ export const useAppStore = create<AppStoreType>()(
     persist(
         (set, get) => ({
             peliculas: {
-                page: 1,
-                results: [],
-                total_pages: 0
+                results: []
             },
             peliculasFavoritas: { 
                 results: [] 
@@ -121,9 +119,7 @@ export const useAppStore = create<AppStoreType>()(
             actualizarPeliculaInfo: (pelicula) => {
                 set({
                      peliculaInfo: {
-                        results: [pelicula],
-                        page: 1,
-                        total_pages: 0
+                        results: [pelicula]
                      }
                 })
             },
